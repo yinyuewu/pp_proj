@@ -12,9 +12,9 @@ We are going to implement a concurrent closed-address hash table with different 
 
 Hash Table, also known as Hash Map, is a widely used data structure in all places of software systems. It maps keys to values. A hash table uses a hash function to compute an index into an array from which the value can be found. A hash table provides insert, lookup, and delete operations in constant time. 
 
-A collision could happen in a HashMap when two or more keys produce the same hash value and hence point to the same bucket location. Two common methods to resolve the collision are linear probing and chaining. Linear probing searches the table for the closest following free location and inserts the new key there. Chaining resolves collisions by allowing each slot to hold a reference to a collection of items with the same key.
+A collision could happen in a HashMap when two or more keys produce the same hash value and hence point to the same bucket location. Two common methods to resolve the collision are linear probing and chaining. Linear probing searches the table for the closest following free location and inserts the new key there. Chaining resolves collisions by allowing each slot to hold a reference to a collection of items with the same key. 
 
-The standard implementations of hash tables in many programming languages are not thread-safe, but multi-thread access is the norm in many applications. Therefore, in this project, we are going to implement a concurrent hash table so that multiple threads can operate on the same hash table simultaneously.
+The standard implementations of hash tables in many programming languages are not thread-safe, but multi-thread access is the norm in many applications. Due to the caveats of lock-free programming, existing lock-free implementations are mostly based on linear probing, or simple chaining with 1 k-v pair per node, which is not very realistic when there’re many collisions. Therefore, in this project, we will explore building a concurrent hash table using different parallel programming techniques so that multiple threads can operate on the same hash table efficiently.
 
 ## Challenge
 
@@ -79,11 +79,11 @@ The goals of this project are listed below.
 100% -- Acceleration
 
 6. Utilize SIMD instructions to speed up for lookup keys, and find out under what circumstances this would work best.
+7. Optimization on read-only/read-heavy workloads
+8. To allow more flexibility in a value size and make buckets smaller, we can store pointers to the real k-v pairs in buckets instead of real data. This will introduce one more layer of indirection. We use the hash tags in bullet 2b for quick validation to decide whether we should look into the real KV or not. 
 
 125% -- Others
 
-7. Read-only/read-write optimization
-8. Improvement on storage: to allow more flexibility in a value size, we can store pointers to the real k-v pairs in buckets instead of real data. There will be one more layer of indirection
 9. Build CUDA implementation by using atomic CAS to perform lookups and deletes.
 10. Allow efficient resizing for the table
 
