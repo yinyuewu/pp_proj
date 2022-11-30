@@ -3,6 +3,8 @@
 Ying Jiang(yingj2), Yinyue Wu(yinyuew)
 
 Webpage: [https://yinyuewu.github.io/pp_proj/](https://yinyuewu.github.io/pp_proj/)
+Proposal: [here](https://docs.google.com/document/d/1p-4ZW6j7hIqzQ5MTeOEJtKItRQBa0rUQn5Yd-SMT_Fc/edit#)
+Milestone Report: [here](https://docs.google.com/document/d/1rK5UNwY7Ls92XXNXKZ1_vxWh7i32Linotv4zExdJOAg/edit#)
 
 ## Summary
 
@@ -69,9 +71,9 @@ The goals of this project are listed below.
    * Implement a concurrent hash map with a coarse-grained lock.
    * Implement a concurrent hash map with a fine-grained lock.
    * Implement a lock-free concurrent hash map using CAS (no tombstone optimization, reason stated above).
-2. Implement alternative techniques of storing k-v pairs only / continuous key storage for fast lookups for both fine-grained and CAS versions.
+2. Implement alternative techniques of storing k-v pairs only / continuous key storage for fast lookups for ~~both fine-grained and CAS versions~~ only the blocking versions.
    * Store keys only once. Just store keys and values pairs as entries
-   * Continuous storage for keys. The tradeoff between extra space vs. fast key lookups, e.g., storing all keys/hashes consecutively for better locality and SIMD efficiency.
+   * Continuous storage of key hashtags for fast lookup. Tradeoff between extra space vs. fast key lookups by storing all keys/hashes consecutively for better locality and SIMD efficiency.
 3. Set up benchmark validation to guarantee the correctness of the implementations.
 4. Profile and evaluate the scalability of different implementations.
 5. Experiments planned: read-only / read-heavy / write-heavy workload, the number of threads, with/without tombstones, different fill factor thresholds, different extra space/tag size allocated for faster key lookups
@@ -80,7 +82,7 @@ The goals of this project are listed below.
 
 6. Utilize SIMD instructions to speed up for lookup keys, and find out under what circumstances this would work best.
 7. Optimization on read-only/read-heavy workloads
-8. To allow more flexibility in a value size and make buckets smaller, we can store pointers to the real k-v pairs in buckets instead of real data. This will introduce one more layer of indirection. We use the hash tags in bullet 2b for quick validation to decide whether we should look into the real KV or not. 
+8. To allow more flexibility in a value size and make buckets smaller, we can store pointers to the real k-v pairs in buckets instead of real data. This will introduce one more layer of indirection. We use the hash tags in bullet 2b for quick validation to decide whether we should look into the real KV or not. Find out the best cache-aware setting. (?) Since tags would not work when stored separately, explore storing them next to the storage ptr.
 
 125% -- Others
 
@@ -107,12 +109,17 @@ Using C++ for this task is also appropriate since the hash table is a fundamenta
 
 | Time | Plan | 
 |------|------|
-| 11/7 ~ 11/13 | Research and Proposal |
-| 11/14 ~ 11/20 | Implement versions of coarse-grained/fine-grained locking with two storage alternatives and do validation |
-| 11/21 ~ 11/27 | Implement lock-free version with storage alternatives and do validation |
-| | Milestone Report | 
-| 11/28 ~ 12/4 | Build SIMD implementation for different alternatives and compare with CPU implementation |
-| 12/5 ~ 12/11 | Finish profiling, scalability analysis, and different experiments |
-| 12/12 ~ 12/18 | 125% goals: Read-only/read-write optimization, implement CUDA version, etc. |
-| | Poster | 
+| 11/7 ~ 11/13 | (Done) Research and Proposal |
+| 11/14 ~ 11/20 | (Done) Implement versions of coarse-grained/fine-grained locking with two storage alternatives and do validation |
+| 11/21 ~ 11/27 | (Done) Implement lock-free version and do validation |
+| | (Done) Build SIMD implementation for different alternatives | 
+| 11/28 ~ 11/30 | (Done) Preliminary comparison of SIMD implementations, storage alternatives with basic CPU implementation |
+| | (Done) Milestone Report | 
+| 11/30 ~ 12/2 | All: Optimize current versions of code | 
+| 12/3 ~ 12/6 | All: Add storage format support: storing pointers to original KV pairs for tagged fine-grained locks and lock-free versions, w/ and w/o SIMD |
+| 12/7 ~ 12/11 | All: Read-only/read-write optimization |
+| | Explore lock-free version with hashtag + ptr stored together |
+| 12/12 ~ 12/15 | All: Finish profiling, scalability analysis, and different experiments |
+| 12/15 ~ 12/18 | All: 125% goals of implementing CUDA version, resizing / migration, etc |
+| | Create poster | 
 
