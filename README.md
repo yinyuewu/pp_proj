@@ -2,11 +2,7 @@
 
 Ying Jiang(yingj2), Yinyue Wu(yinyuew)
 
-Webpage: [https://yinyuewu.github.io/pp_proj/](https://yinyuewu.github.io/pp_proj/)
-
-Proposal: [here](https://docs.google.com/document/d/1p-4ZW6j7hIqzQ5MTeOEJtKItRQBa0rUQn5Yd-SMT_Fc/edit#)
-
-Milestone Report: [here](https://docs.google.com/document/d/1rK5UNwY7Ls92XXNXKZ1_vxWh7i32Linotv4zExdJOAg/edit#)
+[Webpage](https://yinyuewu.github.io/pp_proj/), [Proposal](https://docs.google.com/document/d/1p-4ZW6j7hIqzQ5MTeOEJtKItRQBa0rUQn5Yd-SMT_Fc/edit#), [Milestone Report](https://docs.google.com/document/d/1rK5UNwY7Ls92XXNXKZ1_vxWh7i32Linotv4zExdJOAg/edit#)
 
 ## Summary
 
