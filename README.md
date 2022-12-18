@@ -14,15 +14,10 @@ Hash Table, also known as Hash Map, is a widely used data structure in all place
 
 A collision could happen in a HashMap when two or more keys produce the same hash value and hence point to the same bucket location. Two common methods to resolve the collision are linear probing and chaining. Linear probing searches the table for the closest following free location and inserts the new key there. Chaining resolves collisions by allowing each slot to hold a reference to a collection of items with the same key. To make our project more realistic, we choose to use closed-address tables (linear open-address works similarly as we probe within the bucket), as illustrated in the picture. The locality is good within a bucket but not good across chained buckets. 
 
-Figure 1. Illustration of the basic structure of the implemented hash table
+![Figure 1. Illustration of the basic structure of the implemented hash table](hashtable.png)
 
-Chances of optimization for locality:
-(1) Make use of the fact that locality across buckets can be sacrificed.
-We assume that collisions are rare, and it is even rarer for collisions to exceed the bucket size. So we plan to implement a bucket array as the main table entries, with the number of buckets << number of different hash keys. We don’t need locality across buckets, so bucket size can safely be designed as cache size. The sparsity assumption helps in terms of having only a few chained buckets as long as the load factor is reasonable.
-(2) Storage alternatives for faster key lookups.
-Storing keys (or just the hash of the key) consecutively allows us to do fast key lookups (better for SIMD optimization) and makes the memory footprint smaller. But this introduces multiple address updates, as stated in the next point. Storing key-value pairs together is easier to achieve atomicity for inserts/deletes/updates using CAS but harder for fast lookup since we read keys in an interleaving fashion. Getting the best of both worlds is hard.
 The standard implementations of hash tables in many programming languages are not thread-safe, but multi-thread access is the norm in many applications. Concurrent operations of insertions/deletions / lookups would be the main source of parallelism. Due to the caveats of lock-free programming, existing lock-free implementations are mostly based on linear probing, or simple chaining with 1 k-v pair per node, which is not very realistic when there’re many collisions. Therefore, in this project, we will explore building a concurrent hash table using different parallel programming techniques so that multiple threads can operate on the same hash table efficiently.
-One constraint of lock-free implementation using CAS is that hash table insertion/deletion involves multiple operations, which is hard to ensure atomicity for the lock-free implementation. Protecting multiple operations on different addresses is more common for lock-based approaches. For example: check the key and set its value; update both hashtable and bitmap; maintain consistency of data and tags. 
+
 
 ## Challenge
 
