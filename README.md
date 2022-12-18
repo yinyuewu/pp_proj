@@ -95,16 +95,6 @@ At the poster session, we are going to illustrate the evaluation of all implemen
 
 We’ll submit reproducible code for all experiments in Github.
 
-## Platform Choice
-
-We’ll use GHC machines for 8-core CPU testing / for CUDA experiments. This is not a deep learning task, so 8GB memory from NVIDIA RTX 2080 would definitely be enough. 15.5GB memory of a single GHC machine is also enough.
-
-Assume per entry size 4B key + 8B value (Pointers, at most) + 4B tag per entry = 16B. The real data associated with each pointer is not important for our purpose. If we allocate half the GPU space (4GB) and the rest for additional data/experiment setups, the upper bound of hash tables would be around 4GB / 20B = 0.2G key-value pairs. This is realistic for the experiment.
-
-We’ll use PSC for experiments with more CPUs.
-
-Using C++ for this task is also appropriate since the hash table is a fundamental data structure for any language and requires high efficiency.
-
 ## Schedule
 
 | Time | Plan | 
